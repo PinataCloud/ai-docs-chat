@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     const result = streamText({
         model: openai('gpt-4o'),
-        system: `Please only use the following to help inform your response and do not make up additional information: ${data.data}`,
+        system: `${process.env.CUSTOM_PROMPT}. Also, please only use the following to help inform your response and do not make up additional information: ${data.data}`,
         messages,
       });
       return result.toTextStreamResponse({
