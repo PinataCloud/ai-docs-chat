@@ -13,6 +13,8 @@ export default function Page() {
     streamProtocol: "text",
   });
 
+  //  Placeholder
+
   // Ref to track the last message for auto-scrolling
   const bottomRef: any = useRef(null);
 
