@@ -1,101 +1,129 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useChat } from "ai/react";
+import { useRef, useEffect, useState } from "react";
+import Pinnie from "./components/Pinnie";
+import User from "./components/User";
+import MarkdownRenderer from "./components/MarkdownRenderer";
+import TypingBubble from "./components/TypingBubble";
+
+export default function Page() {
+  const [typingBubble, setTypingBubble] = useState(true);
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    streamProtocol: "text",
+  });
+
+  // Ref to track the last message for auto-scrolling
+  const bottomRef: any = useRef(null);
+
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
+    }
+
+    if(messages && messages.length > 0 && messages[messages.length - 1].role === "user") {
+      setTypingBubble(true);
+    } else {
+      setTypingBubble(false);
+    }
+  }, [messages]);
+
+  // Handle Shift + Enter and dynamic resizing
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleSubmit(event as any);
+      const textarea = document.getElementById("query");
+      if (textarea) {
+        textarea.style.height = "auto";
+      }
+    }
+  };
+
+  const handleInputResize = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = event.target;
+    textarea.style.height = "auto"; // Reset height
+    if (input.length > 0) {
+      textarea.style.height = `${textarea.scrollHeight}px`; // Adjust height to fit content
+    } else {
+      textarea.style.height = "auto";
+    }
+    handleInputChange(event); // Trigger existing input handler
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="w-screen min-h-screen bg-bgColor flex flex-col relative">
+        <div className="w-screen px-8 py-4 m-auto flex justify-end absolute z-10">
+          <a className="bg-green rounded-full pb-2 pt-3 px-6 text-black font-extrabold font-custom uppercase" href="https://pinata.cloud">Pinata</a>
+          <a className="bg-purple ml-2 rounded-full pb-2 pt-3 px-6 text-black font-extrabold font-custom uppercase" href="https://docs.pinata.cloud">Docs</a>
+        </div>      
+      <img
+        className="z-0 fixed min-w-screen min-h-screen -top-20 left-0"
+        src="/background.png"
+        alt="background"
+      />
+      <div className="absolute w-screen min-h-screen top-0 left-0">
+        <div className="w-4/5 max-w-[600px] m-auto mt-[94px] chat-border">
+          <h1
+            className={`pt-2 font-custom text-center text-dark text-[40px] md:text-[60px]lg:text-[75px] font-extrabold`}
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            ASK PINNIE
+          </h1>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Scrollable Message Container */}
+        <div className="relative mt-[31px] bg-[#EBEEFE] rounded-[60px] w-3/4 min-h-[75vh] max-w-[1200px] m-auto flex-grow overflow-y-auto shadow-lg mb-[94px]">
+          <div className="px-4 pt-4 pb-20">
+            {messages.map((m) => (
+              <div key={m.id} className="whitespace-pre-wrap">
+                {m.role === "user" ? (
+                  <div className="w-full flex justify-end my-2">
+                    <span className="font-bold flex flex-col justify-center w-3/4 bg-purple text-white user-chat px-4 py-2 mr-2">
+                      {m.content}
+                    </span>
+                    <User />
+                  </div>
+                ) : (
+                  <div className="w-full flex justify-start my-2">
+                    <Pinnie />
+                    <span className="font-bold w-3/4 bg-gray-200 text-black bot-chat flex flex-col justify-center py-6 px-4 ml-2">
+                      <MarkdownRenderer markdownContent={m.content} />
+                    </span>
+                  </div>
+                )}
+                {
+                  typingBubble && 
+                  <div className="w-full flex justify-start my-2">
+                    <Pinnie />
+                    <span className="font-bold bg-gray-200 text-black bot-chat flex flex-col justify-center py-2 px-4 ml-2">
+                      <TypingBubble />
+                    </span>
+                  </div>
+                }
+              </div>
+            ))}
+
+            {/* Dummy element for auto-scroll */}
+            <div ref={bottomRef} />
+          </div>
+          <form
+            onSubmit={handleSubmit}
+            className="absolute bottom-[10px] w-full px-4"
+          >
+            <textarea
+              id="query"
+              autoFocus
+              className="font-custom text-extrabold w-full py-4 px-6 rounded-[60px] outline-none shadow-lg m-auto block text-black resize-none"
+              value={input}
+              placeholder="Ask Pinnie about our developer docs..."
+              onChange={handleInputResize}
+              onKeyDown={handleKeyDown}
+              rows={1}
+              style={{ overflow: "hidden" }}
+            />
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

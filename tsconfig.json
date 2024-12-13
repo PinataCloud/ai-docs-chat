@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "scripts/crawl_data.js", "pinata.js", "scripts/upload_and_vectorize.js", "pinata.js"],
   "exclude": ["node_modules"]
 }
