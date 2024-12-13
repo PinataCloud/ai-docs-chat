@@ -8,7 +8,7 @@ import MarkdownRenderer from "./components/MarkdownRenderer";
 import TypingBubble from "./components/TypingBubble";
 
 export default function Page() {
-  const [typingBubble, setTypingBubble] = useState(true);
+  const [typingBubble, setTypingBubble] = useState(false);
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     streamProtocol: "text",
   });
