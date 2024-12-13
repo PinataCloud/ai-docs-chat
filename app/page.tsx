@@ -90,8 +90,10 @@ export default function Page() {
                       <MarkdownRenderer markdownContent={m.content} />
                     </span>
                   </div>
-                )}
-                {
+                )}                
+              </div>
+            ))}
+            {
                   typingBubble && 
                   <div className="w-full flex justify-start my-2">
                     <Pinnie />
@@ -100,9 +102,6 @@ export default function Page() {
                     </span>
                   </div>
                 }
-              </div>
-            ))}
-
             {/* Dummy element for auto-scroll */}
             <div ref={bottomRef} />
           </div>
