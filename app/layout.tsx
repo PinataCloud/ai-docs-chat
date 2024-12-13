@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: any = {
   title: "Pinata Docs Chat",
@@ -30,6 +31,7 @@ export default function RootLayout({
         className={`antialiased font-body`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );

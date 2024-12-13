@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.0.8",
+    "@vercel/analytics": "^1.4.1",
     "ai": "^4.0.14",
     "dotenv": "^16.4.7",
     "lucide-react": "^0.468.0",
