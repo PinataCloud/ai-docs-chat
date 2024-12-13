@@ -75,7 +75,7 @@ export default function Page() {
 
         {/* Scrollable Message Container */}
         <div className="relative mt-[31px] bg-[#EBEEFE] rounded-[60px] w-3/4 min-h-[75vh] max-w-[1200px] m-auto flex-grow overflow-y-auto shadow-lg mb-[94px]">
-          <div className="px-4 pt-4 pb-20">
+          <div className="px-4 pt-4 pb-28">
             {messages.map((m) => (
               <div key={m.id} className="whitespace-pre-wrap">
                 {m.role === "user" ? (
@@ -114,9 +114,9 @@ export default function Page() {
             <textarea
               id="query"
               autoFocus
-              className="font-custom text-extrabold w-full py-4 px-6 rounded-[60px] outline-none shadow-lg m-auto block text-black resize-none"
+              className="font-custom text-extrabold w-full mb-[25px] py-4 px-6 rounded-[60px] outline-none shadow-lg m-auto block text-black resize-none"
               value={input}
-              placeholder="Ask Pinnie about our developer docs..."
+              placeholder="What's your question?"
               onChange={handleInputResize}
               onKeyDown={handleKeyDown}
               rows={1}
