@@ -15,6 +15,7 @@
     "dotenv": "^16.4.7",
     "lucide-react": "^0.468.0",
     "next": "14.2.20",
+    "next-cors": "^1.0.0",
     "openai": "^4.76.0",
     "p-limit": "^6.2.0",
     "pinata": "^1.9.1",
