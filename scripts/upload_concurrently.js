@@ -41,9 +41,9 @@ const processFile = async (file) => {
     try {
         const pLimit = await import('p-limit').then(mod => mod.default);
         const files = await loadDir();
-        const limit = pLimit(20); // Limit the concurrency to 3
+        const limit = pLimit(20);
         const fileProcessingPromises = files.map((file) => limit(() => processFile(file))); 
-        await Promise.all(fileProcessingPromises); // Wait for all promises to resolve
+        await Promise.all(fileProcessingPromises);
         console.log("All files processed successfully.");
     } catch (error) {
         console.error("Error in main process:", error);
