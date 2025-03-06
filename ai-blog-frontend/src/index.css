@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'PPNeueMachina';
+  src: url('./fonts/PPNeueMachina-Variable.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Telegraf';
+  src: url('./fonts/PPTelegraf-Variable.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.chat-border {
+  border-radius: 32px 32px 32px 0px;
+  background: var(--Brand-Primary-White, #FFF);
+}
+
+.user-chat {
+  border-radius: 32px 32px 0px 32px;
+}
+
+.bot-chat {
+  border-radius: 32px 32px 32px 0px;
+}
